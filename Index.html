@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Recruitment Form</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="form-container">
+    <h1>🕵️ Mission "Kickstarter 25-26"</h1>
+    <p>Agent, provide your details to pass the entry.</p>
+
+    <form id="agentForm">
+      <!-- Agent Codename -->
+      <label for="agent">Name</label>
+      <input type="text" name="entry.194710150" id="agent" placeholder="Your secret identity" required>
+
+      <!-- Secure Line -->
+      <label for="phone">Secure Line(Phone. no)</label>
+      <input type="tel" name="entry.166965490" id="phone" placeholder="Confidential number" required>
+
+      <!-- Base of Operations -->
+      <label for="center">Base of Operations</label>
+      <select name="entry.2038128535" id="center" required>
+        <option value="" disabled selected>Select your Center</option>
+        <option value="Aadarna">Aadarna</option>
+        <option value="Aman vedika">Aman vedika</option>
+        <option value="Devnar">Devnar</option>
+        <option value="DJ">DJ</option>
+        <option value="Manchikalalu">Manchikalalu</option>
+        <option value="Nightingale">Nightingale</option>
+        <option value="Rehmath">Rehmath</option>
+        <option value="SBG">SBG</option>
+        <option value="SG">SG</option>
+        <option value="NA">NA</option>
+      </select>
+
+      <button type="submit">Submit File</button>
+    </form>
+  </div>
+
+  <!-- ✅ Script at the bottom -->
+  <script>
+    const form = document.getElementById("agentForm");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault(); // stop default redirect
+
+      const name = document.getElementById("agent").value;
+      const number = document.getElementById("phone").value;
+      const center = document.getElementById("center").value;
+
+      // Submit to Google Form silently
+      fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSeS6YnzH-JZVHOTB8Q0tMmxoOMxGNoOXYf0SMacMl5n7E92Ag/formResponse", {
+        method: "POST",
+        mode: "no-cors",
+        body: new URLSearchParams({
+          "entry.194710150": name,
+          "entry.166965490": number,
+          "entry.2038128535": center
+        })
+      });
+
+      // Immediately redirect to loading.html
+      window.location.href = "loading.html?name=" + encodeURIComponent(name) +
+        "&number=" + encodeURIComponent(number);
+    });
+  </script>
+</body>
+
+</html>

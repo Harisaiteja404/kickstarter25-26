@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading...</title>
+<style>
+  body {
+    background-color: #0d0d0d;
+    color: #00ffcc;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .loading {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    animation: blink 1s infinite; /* <-- Add this line */
+  }
+
+  @keyframes blink {
+    50% { opacity: 0.4; } /* <-- Add this keyframes */
+  }
+
+  .team-info {
+    display: none;
+    animation: fadeIn 1s ease-in forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  img {
+    margin-top: 1rem;
+    max-width: 250px;
+    border: 2px solid #00ffcc;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00ffcc;
+  }
+</style>
+
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading" id="loading">Initializing system...</div>
+
+  <!-- Team Info -->
+  <div class="team-info" id="team-info">
+    <h1 id="welcome"></h1>
+    <img id="team-image" src="" alt="Team Image">
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get("name");
+    const number = urlParams.get("number");
+
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbwWImsIRldJ9n7WV4KX7MZBy7-U4wwOcsTlry5Iu29CbjqlGwO5E1UqBZFoWf0GWwusvA/exec";
+
+    const teamImages = {
+      "Homicide Unit": "Homicide Unit.jpeg",
+      "Forensics Squad": "forensics Squad.jpeg",
+      "Cyber Crime Wing": "cyber crime wing.jpeg",
+      "Undercover Ops": "Undercover ops.jpeg",
+      "Interrogation Unit": "Integration unit.jpeg",
+      "Evidence Collectors": "Evidence collectors.jpeg",
+      "Cold Case Unit": "Cold case unit.jpeg",
+      "Surveillance Team": "surveillance team.jpeg",
+      "Crime Lab": "Crime lab.jpeg",
+      "Task Force X": "Task force.jpeg",
+      "Criminal Profilers": "Criminal profilers.jpeg",
+      "Black Ops": "Black ops.jpeg",
+    };
+
+    // Sequential cinematic loading messages
+    const messages = [
+      "Encrypting and making security checks...",
+      "Establishing security layers...",
+      "Mapping agent to team...",
+    ];
+    let step = 0;
+    const loadingDiv = document.getElementById("loading");
+
+    function showNextMessage() {
+      if (step < messages.length) {
+        loadingDiv.textContent = messages[step];
+        step++;
+        setTimeout(showNextMessage, 2000); // each step lasts 2s
+      } else {
+        fetchTeam();
+      }
+    }
+
+    function fetchTeam() {
+      fetch(`${webAppUrl}?name=${encodeURIComponent(name)}&number=${encodeURIComponent(number)}`)
+        .then(res => res.json())
+        .then(data => {
+          loadingDiv.style.display = "none";
+          document.getElementById("team-info").style.display = "block";
+
+          if (data.found) {
+            document.getElementById("welcome").innerText = `🕵 Hey ${data.name}, your crew name is ${data.team}`;
+            const imgFile = teamImages[data.team];
+            if (imgFile) document.getElementById("team-image").src = imgFile;
+          } else {
+            document.getElementById("welcome").innerText = "❌ Automatic team mapping failed. Contact the Lead";
+          }
+        })
+        .catch(err => {
+          loadingDiv.textContent = "⚠️ Error fetching team data, Contact the Lead!";
+          console.error(err);
+        });
+    }
+
+    // Start the cinematic sequence
+    showNextMessage();
+  </script>
+</body>
+</html>

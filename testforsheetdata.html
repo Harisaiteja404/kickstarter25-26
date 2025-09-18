@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Team Finder</title>
+    <style>
+        body {
+            background: #0d0d0d;
+            color: #00ffcc;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        input,
+        button {
+            margin: 0.5rem;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #00ffcc;
+            background: #111;
+            color: #00ffcc;
+        }
+
+        button {
+            cursor: pointer;
+            background: #ff3333;
+        }
+
+        button:hover {
+            background: #cc0000;
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🔍 Find Agent Team</h1>
+
+    <input type="text" id="agentName" placeholder="Enter Agent Name">
+    <input type="text" id="agentNumber" placeholder="Enter Phone Number">
+    <button onclick="findTeam()">Find Team</button>
+
+    <div class="result" id="result"></div>
+    <img id="team-image" src="" alt="Team Image">
+
+    <script>
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbwWImsIRldJ9n7WV4KX7MZBy7-U4wwOcsTlry5Iu29CbjqlGwO5E1UqBZFoWf0GWwusvA/exec"; // 🔗 Replace with deployed Apps Script URL
+
+        const teamImages = {
+            "Homicide Unit": "Homicide Unit.jpeg",
+            "Forensics Squad": "forensics Squad.jpeg",
+            "Cyber Crime Wing": "cyber crime wing.jpeg",
+            "Undercover Ops": "Undercover ops.jpeg",
+            "Interrogation Unit": "Integration unit.jpeg",
+            "Evidence Collectors": "Evidence collectors.jpeg",
+            "Cold Case Unit": "Cold case unit.jpeg",
+            "Surveillance Team": "surveillance team.jpeg",
+            "Crime Lab": "Crime lab.jpeg",
+            "Task Force X": "Task force.jpeg",
+            "Criminal Profilers": "Criminal profilers.jpeg",
+            "Black Ops": "Black ops.jpeg",
+        };
+        function findTeam() {
+            const name = document.getElementById("agentName").value.trim();
+            const number = document.getElementById("agentNumber").value.trim();
+
+            if (!name || !number) {
+                document.getElementById("result").innerText = "⚠️ Please enter both name and number.";
+                return;
+            }
+
+            document.getElementById("result").innerText = "⏳ Searching in database...";
+
+            fetch(`${webAppUrl}?name=${encodeURIComponent(name)}&number=${encodeURIComponent(number)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.found) {
+                        document.getElementById("result").innerText =
+                            `✅ Agent ${data.name}, your team is: ${data.team}`;
+                        const imgFile = teamImages[data.team];
+                        document.getElementById("team-image").src = imgFile;
+                    } else {
+                        document.getElementById("result").innerText = "❌ Agent not found!";
+                    }
+                })
+                .catch(err => {
+                    document.getElementById("result").innerText = "⚠️ Error connecting to server!";
+                    console.error(err);
+                });
+        }
+    </script>
+
+</body>
+
+</html>

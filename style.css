@@ -1,0 +1,94 @@
+body {
+  background-color: #0d0d0d;
+  color: #00ffcc;
+  font-family: 'Courier New', monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* safer than 100vh */
+  padding: 1rem; /* breathing space on small screens */
+}
+
+/* 🔥 Form Container with entry animation */
+.form-container {
+  background: rgba(0, 0, 0, 0.85);
+  padding: 2rem;
+  border: 2px solid #00ffcc;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #00ffcc;
+  width: 100%;
+  max-width: 400px;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+h1 {
+  font-size: clamp(1.2rem, 5vw, 1.5rem); /* scales between 1.2rem - 1.5rem */
+  margin-bottom: 1rem;
+  color: #ff3333;
+  text-shadow: 0 0 10px #ff3333;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  font-size: clamp(0.85rem, 3vw, 1rem);
+}
+
+input, select, button {
+  width: 100%;
+  padding: clamp(8px, 2vw, 12px); /* scales with screen */
+  margin-top: 0.5rem;
+  border: 1px solid #00ffcc;
+  border-radius: 5px;
+  background: #111;
+  color: #00ffcc;
+  font-size: clamp(0.85rem, 3vw, 1rem);
+  transition: all 0.3s ease;
+}
+
+/* ✨ Glow on focus */
+input:focus, select:focus {
+  outline: none;
+  border-color: #ff3333;
+  box-shadow: 0 0 10px #ff3333;
+}
+
+/* 🔴 Mission-style Button */
+button {
+  margin-top: 1.5rem;
+  background: #ff3333;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  box-shadow: 0 0 10px rgba(255, 51, 51, 0.6);
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #cc0000;
+  box-shadow: 0 0 20px rgba(255, 51, 51, 0.9), 
+              0 0 40px rgba(255, 51, 51, 0.7);
+  transform: scale(1.05);
+}
+
+/* 📱 Extra small screens (e.g. 320px wide phones) */
+@media (max-width: 350px) {
+  body {
+    padding: 0.5rem;
+  }
+  .form-container {
+    padding: 0.8rem;
+  }
+  h1 {
+    font-size: 1rem;
+  }
+  label {
+    font-size: 0.75rem;
+  }
+}
