@@ -38,6 +38,13 @@
         <option value="NA">NA</option>
       </select>
 
+      <label for="Food">Food preference</label>
+      <select name="entry.68072153" id="Food" required>
+        <option value="" disabled selected>Select your Food preference</option>
+        <option value="Veg">Veg</option>
+        <option value="Non-Veg">Non-Veg</option>
+      </select>
+
       <button type="submit">Submit File</button>
     </form>
   </div>
@@ -52,6 +59,7 @@
       const name = document.getElementById("agent").value;
       const number = document.getElementById("phone").value;
       const center = document.getElementById("center").value;
+      const Food = document.getElementById("Food").value;
 
       // Submit to Google Form silently
       fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSeS6YnzH-JZVHOTB8Q0tMmxoOMxGNoOXYf0SMacMl5n7E92Ag/formResponse", {
@@ -60,7 +68,8 @@
         body: new URLSearchParams({
           "entry.194710150": name,
           "entry.166965490": number,
-          "entry.2038128535": center
+          "entry.2038128535": center,
+          "entry.68072153": Food
         })
       });
 
